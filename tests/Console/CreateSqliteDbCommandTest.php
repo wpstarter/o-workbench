@@ -34,13 +34,13 @@ class CreateSqliteDbCommandTest extends TestCase
     public function it_can_generate_database_using_command()
     {
         $this->withoutSqliteDatabase(function () {
-            $this->assertFalse(file_exists(database_path('database.sqlite')));
+            $this->assertFalse(file_exists(ws_database_path('database.sqlite')));
 
             $this->artisan('workbench:create-sqlite-db')
                 ->expectsOutputToContain('File [@laravel/database/database.sqlite] generated')
                 ->assertOk();
 
-            $this->assertTrue(file_exists(database_path('database.sqlite')));
+            $this->assertTrue(file_exists(ws_database_path('database.sqlite')));
         });
     }
 
@@ -48,7 +48,7 @@ class CreateSqliteDbCommandTest extends TestCase
     public function it_cannot_generate_database_using_command_when_database_already_exists()
     {
         $this->withSqliteDatabase(function () {
-            $this->assertTrue(file_exists(database_path('database.sqlite')));
+            $this->assertTrue(file_exists(ws_database_path('database.sqlite')));
 
             $this->artisan('workbench:create-sqlite-db')
                 ->expectsOutputToContain('File [@laravel/database/database.sqlite] already exists')
