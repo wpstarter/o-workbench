@@ -59,7 +59,7 @@ class WorkbenchController extends Controller
      */
     public function login($userId, $guard = null)
     {
-        $guard = $guard ?: config('auth.defaults.guard');
+        $guard = $guard ?: ws_config('auth.defaults.guard');
 
         /** @var \WpStarter\Contracts\Auth\UserProvider $provider */
         $provider = Auth::guard($guard)->getProvider(); // @phpstan-ignore method.notFound
@@ -83,7 +83,7 @@ class WorkbenchController extends Controller
      */
     public function logout($guard = null)
     {
-        $guard = $guard ?: config('auth.defaults.guard');
+        $guard = $guard ?: ws_config('auth.defaults.guard');
 
         /** @phpstan-ignore method.notFound */
         Auth::guard($guard)->logout();

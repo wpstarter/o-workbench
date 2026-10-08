@@ -15,6 +15,6 @@ class RemoveAssetSymlinkFolders
      */
     public function handle(ServeCommandEnded $event): void
     {
-        resolve(Action::class)->handle();
+        ws_resolve(Action::class)->handle();
     }
 }

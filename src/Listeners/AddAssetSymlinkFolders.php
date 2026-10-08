@@ -15,6 +15,6 @@ class AddAssetSymlinkFolders
      */
     public function handle(ServeCommandStarted $event): void
     {
-        resolve(Action::class)->handle();
+        ws_resolve(Action::class)->handle();
     }
 }

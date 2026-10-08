@@ -51,8 +51,10 @@ class ScheduleWorkCommand extends Command
             $command .= ' --whisper';
         }
 
-        if ($this->option('run-output-file')) {
-            $command .= ' >> '.ProcessUtils::escapeArgument($this->option('run-output-file')).' 2>&1';
+        $outputFile = $this->option('run-output-file');
+
+        if (is_string($outputFile) && $outputFile) {
+            $command .= ' >> '.ProcessUtils::escapeArgument($outputFile).' 2>&1';
         }
 
         while (true) {
