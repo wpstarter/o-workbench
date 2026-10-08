@@ -1,0 +1,52 @@
+name: 'update assets'
+
+on:
+  push:
+    branches:
+      - '*.x'
+    paths:
+      - 'package-lock.json'
+  pull_request:
+    paths:
+      - 'package-lock.json'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: [8.3]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 23
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: dom, curl, libxml, mbstring, zip, pcntl, sqlite3, pdo_sqlite, bcmath, fileinfo
+          coverage: none
+
+      - name: Install dependencies
+        uses: ramsey/composer-install@v4
+        with:
+          dependency-versions: "highest"
+          composer-options: "--prefer-dist --no-cache"
+
+      - name: Update Assets
+        run: |
+          composer run build:assets
+
+      - name: Commit compiled files
+        uses: stefanzweifel/git-auto-commit-action@v7
+        with:
+          commit_message: Update Assets

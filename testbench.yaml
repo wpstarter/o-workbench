@@ -1,0 +1,34 @@
+providers:
+  - Orchestra\Canvas\Core\LaravelServiceProvider
+  - Orchestra\Workbench\WorkbenchServiceProvider
+  - Workbench\App\Providers\WorkbenchServiceProvider
+
+workbench:
+  start: '/'
+  install: true
+  auth: true
+  build:
+    - asset-publish
+    - create-sqlite-db
+    - migrate:refresh:
+        --seed: true
+        --seeder: Workbench\Database\Seeders\DatabaseSeeder
+  assets:
+    - workbench-assets
+  discovers:
+    web: true
+    api: true
+    commands: true
+  sync:
+    - from: workbench/dist
+      to: public/vendor/workbench
+    - from: storage
+      to: workbench/storage
+      reverse: true
+
+purge:
+  files:
+    - .env
+  directories:
+    - public/build
+    - public/vendor/*
